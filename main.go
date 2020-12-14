@@ -22,7 +22,7 @@ var (
 )
 
 func init() {
-	flag.StringVar(&addr, "addr", ":8080", "listen address")
+	flag.StringVar(&addr, "addr", ":8890", "listen address")
 }
 
 func main() {
