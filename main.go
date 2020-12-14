@@ -160,7 +160,6 @@ func weightedDirector(backends ...backend) func(*http.Request) {
 
 		req.URL.Scheme = backend.url.Scheme
 		req.URL.Host = backend.url.Host
-		req.URL.Path = backend.url.Path
 
 		req.Header.Set("Color", backend.color)
 	}
