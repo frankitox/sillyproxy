@@ -1,0 +1,24 @@
+#!/bin/bash
+
+set -xe
+
+COMMIT=$(git rev-parse --short HEAD)
+REGISTRY="$1"
+
+[ ! -f /usr/bin/qemu-aarch64-static ] && sudo apt-get install -y qemu-user-static && sudo service docker restart
+
+echo "[registry.\"$REGISTRY\"]
+  http = true
+  insecure = true" > buildkit.toml
+set +e && \
+  docker buildx rm mybuilder && set -e
+docker buildx create --use \
+  --name mybuilder \
+  --config buildkit.toml \
+  --buildkitd-flags '--allow-insecure-entitlement security.insecure'
+docker buildx build --push \
+  --platform linux/amd64,linux/arm64 \
+  -t $REGISTRY/sillyproxy:"$COMMIT" \
+  -t $REGISTRY/sillyproxy:latest .
+
+echo "Image sillyproxy:$COMMIT built successfully!"
