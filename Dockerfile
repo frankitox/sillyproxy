@@ -1,6 +1,6 @@
 FROM golang
 
-COPY . /go/src/github.com/stevvooe/sillyproxy
-RUN go install github.com/stevvooe/sillyproxy
+COPY . /go/src/github.com/frankitox/sillyproxy
+RUN go install github.com/frankitox/sillyproxy@latest
 
 ENTRYPOINT ["/go/bin/sillyproxy"]
